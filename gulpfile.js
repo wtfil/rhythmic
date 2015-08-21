@@ -4,11 +4,16 @@ var gutil = require('gulp-util');
 var fs = require('fs');
 var watchify = require('watchify');
 var server = require('http-server');
+var less = require('gulp-less');
 
 var files = {
     js: {
         src: 'public/src/index.js',
         dest: 'public/build/index.js'
+    },
+    css: {
+    	src: 'public/index.less',
+    	dest: 'public/build'
     }
 };
 
@@ -17,6 +22,20 @@ gulp.task('js', function () {
         .transform('babelify')
         .bundle()
         .pipe(fs.createWriteStream(files.js.dest))
+});
+
+gulp.task('css', function () {
+	return gulp.src(files.css.src)
+		.pipe(less())
+		.on('error', function (e) {
+			gutil.log(gutil.colors.red(e.message));
+			this.emit('end');
+		})
+		.pipe(gulp.dest(files.css.dest));
+});
+
+gulp.task('css-watch', function () {
+	gulp.watch(files.css.src, ['css']);
 });
 
 gulp.task('server', function (cb) {
@@ -51,4 +70,4 @@ gulp.task('js-watch', function () {
     rebundle();
 });
 
-gulp.task('dev', ['js', 'js-watch', 'server']);
+gulp.task('dev', ['css', 'js-watch', 'server', 'css-watch']);

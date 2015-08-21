@@ -1,3 +1,8 @@
+@import (inline) '../node_modules/bootstrap/dist/css/bootstrap.css';
+@note-color: #ddd;
+@active-color: orange;
+
+
 .note-group {
 	height: 4em;
 	width: 4em;
@@ -7,13 +12,13 @@
 
 .note {
 	box-sizing: border-box;
-	border: solid #ddd;
+	border: solid @note-color;
 	border-width: 3px 3px 0 0;
 	height: 100%;
 	float: left;
-}
-.note:first-child {
-	border-width: 3px 0 0 3px;
+	&:first-child {
+		border-width: 3px 0 0 3px;
+	}
 }
 
 .eight {
@@ -22,14 +27,14 @@
 .sixteen {
 	width: 25%;
 	position: relative;
-}
-.sixteen:before {
-	content: '';
-	position: absolute;
-	top: 20%;
-	width: 100%;
-	height: 3px;
-	background: #ddd;
+	&:before {
+		content: '';
+		position: absolute;
+		top: 20%;
+		width: 100%;
+		height: 3px;
+		background: @note-color;
+	}
 }
 
 .eight:first-child + .sixteen {
@@ -45,16 +50,15 @@
 	content: '';
 	position: absolute;
 	top: -3px;
-	right: 125%;
-	width: 120%;
+	right: 130%;
+	width: 125%;
 	height: 3px;
-	background: #ddd;
+	background: @note-color;
 }
 
 .current {
-	border-color: orange;
+	border-color: @active-color;
+	&:before {
+		background: @active-color;
+	}
 }
-.current:before {
-	background: orange;
-}
-
