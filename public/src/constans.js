@@ -6,5 +6,9 @@ var FIGURES = {
 	f3: [EIGHT, SIXTEEN, SIXTEEN],
 	f4: [SIXTEEN, EIGHT, SIXTEEN]
 };
+var DURATIONS = {
+	[EIGHT]: 1 / 8,
+	[SIXTEEN]: 1 / 16
+};
 
-module.exports = {EIGHT, SIXTEEN, FIGURES};
+module.exports = {EIGHT, SIXTEEN, FIGURES, DURATIONS};

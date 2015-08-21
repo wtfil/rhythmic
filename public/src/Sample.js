@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import {EIGHT, SIXTEEN} from './constans'
+import {EIGHT, SIXTEEN, DURATIONS} from './constans'
+import {playOpen} from './audio';
 
 module.exports = React.createClass({
 	displayName: 'Sample',
@@ -11,30 +12,41 @@ module.exports = React.createClass({
 			currentNote: 0
 		};
 	},
-	componentWillReceiveProps() {
+	componentWillReceiveProps(newProps) {
+		clearTimeout(this.updateTimeout);
 		this.setState(this.getInitialState());
+		this.update();
 	},
+
 	componentWillMount() {
-		this.interval = setInterval(() => {
-			var note = this.state.currentNote + 1;
-			var group = this.state.currentGroup;
-			if (note > this.props.order[this.state.currentGroup].length - 1) {
-				note = 0;
-				group ++;
-			}
-			if (group > this.props.order.length - 1) {
-				group = 0;
-			}
-			this.setState({
-				currentGroup: group,
-				currentNote: note
-
-			});
-		}, 300);
-
+		this.update();
 	},
 	componentWillUnmount() {
-		clearInterval(this.interval);
+		clearTimeout(this.updateTimeout);
+	},
+	update() {
+		var {currentNote, currentGroup} = this.state;
+		var {order} = this.props;
+		var delay = 4000 * DURATIONS[order[currentGroup][currentNote]];
+
+		var note = currentNote + 1;
+		var group = currentGroup;
+		if (note > order[currentGroup].length - 1) {
+			note = 0;
+			group ++;
+		}
+		if (group > order.length - 1) {
+			group = 0;
+		}
+		playOpen().then(() => {
+			this.updateTimeout = setTimeout(() => {
+				this.setState({
+					currentGroup: group,
+					currentNote: note
+				});
+				this.update();
+			}, delay);
+		});
 	},
 	render() {
 		return <div>
