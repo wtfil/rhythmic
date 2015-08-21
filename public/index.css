@@ -1,0 +1,60 @@
+.note-group {
+	height: 4em;
+	width: 4em;
+	display: inline-block;
+	margin-right: 0.5em;
+}
+
+.note {
+	box-sizing: border-box;
+	border: solid #ddd;
+	border-width: 3px 3px 0 0;
+	height: 100%;
+	float: left;
+}
+.note:first-child {
+	border-width: 3px 0 0 3px;
+}
+
+.eight {
+	width: 50%;
+}
+.sixteen {
+	width: 25%;
+	position: relative;
+}
+.sixteen:before {
+	content: '';
+	position: absolute;
+	top: 20%;
+	width: 100%;
+	height: 3px;
+	background: #ddd;
+}
+
+.eight:first-child + .sixteen {
+	border-width: 3px 0 0 3px;
+}
+.sixteen:first-child + .eight {
+	border-width: 3px 0 0 3px;
+	width: 25%;
+	margin-left: 25%;
+	position: relative;
+}
+.sixteen:first-child + .eight:before {
+	content: '';
+	position: absolute;
+	top: -3px;
+	right: 125%;
+	width: 120%;
+	height: 3px;
+	background: #ddd;
+}
+
+.current {
+	border-color: orange;
+}
+.current:before {
+	background: orange;
+}
+
