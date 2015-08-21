@@ -1,66 +1,55 @@
 import React from 'react'
-import classnames from 'classnames'
+import {FIGURES} from './constans';
+import Sample from './Sample';
 
-var EIGHT = '1/8';
-var SIXTEEN = '1/16';
-var figures = {
-	f1: [EIGHT, EIGHT],
-	f2: [SIXTEEN, SIXTEEN, EIGHT],
-	f3: [EIGHT, SIXTEEN, SIXTEEN],
-	f4: [SIXTEEN, EIGHT, SIXTEEN]
-};
-
-var Sample = React.createClass({
+var Settings = React.createClass({
 	getInitialState() {
 		return {
-			currentGroup: 0,
-			currentNote: 0
+			figureCount: 4
 		};
-	},
-	componentWillMount() {
-		setInterval(() => {
-			var note = this.state.currentNote + 1;
-			var group = this.state.currentGroup;
-			if (note > this.props.order[this.state.currentGroup].length - 1) {
-				note = 0;
-				group ++;
-			}
-			if (group > this.props.order.length - 1) {
-				group = 0;
-			}
-			this.setState({
-				currentGroup: group,
-				currentNote: note
-
-			});
-		}, 300);
-
 	},
 	render() {
 		return <div>
-			{this.props.order.map((figure, groupIndex) => {
-				return <div className="note-group">
-					{figure.map((note, noteIndex) => {
-
-						console.log(groupIndex * 4 + noteIndex, this.state.current);
-						var classes = classnames({
-							note: true,
-							eight: note === EIGHT,
-							sixteen: note === SIXTEEN,
-							current: this.state.currentGroup === groupIndex &&
-								this.state.currentNote === noteIndex
-						});
-						return <div className={classes} />;
-					})}
-				</div>
-			})}
-		</div>
+			<label for="">Repeats:</label>
+			<input type="" value={this.state.figureCount} onChange={this.changeCount}/>
+			<button onClick={this.generate}>Generate</button>
+		</div>;
+	},
+	changeCount(e) {
+		var num = Number(e.target.value);
+		if (num) {
+			this.setState({figureCount: num});
+		}
+	},
+	generate() {
+		var names = Object.keys(FIGURES);
+		var figures = [];
+		var index, i;
+		for (i = 0; i < this.state.figureCount; i++) {
+			index = Math.round(Math.random() * (names.length - 1));
+			figures.push(FIGURES[names[index]]);
+		}
+		this.props.onGenerate(figures)
 	}
-})
+});
 
 var App = React.createClass({
+	getInitialState() {
+		return {
+			order: [
+				FIGURES.f1, FIGURES.f2, FIGURES.f3, FIGURES.f4
+			]
+		};
+	},
+	update(order) {
+		this.setState({order: order});
+	},
 	render() {
-		return <Sample order={[figures.f1, figures.f2, figures.f3, figures.f4]} />;
+		return <div>
+			<Settings onGenerate={this.update}/>
+			<Sample order={this.state.order} />
+		</div>;
+
 	}
 });
 
