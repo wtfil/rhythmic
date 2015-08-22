@@ -61,21 +61,30 @@ module.exports = React.createClass({
 	},
 
 	render() {
-		return <div className="jumbotron">
-			<div>
-				{Object.keys(FIGURES).map(key => this.renderFigure(key))}
+		return <div className="well">
+			<div className="row">
+
+				<div className="col-md-4">
+					<h4>Figures</h4>
+					{Object.keys(FIGURES).map(key => this.renderFigure(key))}
+				</div>
+				<div className="col-md-4 btn-toolbar" role="toolbar" >
+					<h4>Repeats</h4>
+					{[1, 2, 4, 8, 16].map(num => {
+						return <button
+							className={classnames('btn btn-default', {active: num === this.state.figureCount})}
+							onClick={this.changeCount(num)}
+							children={num}
+							key={num}
+						/>
+					})}
+				</div>
 			</div>
-			<div className="btn-toolbar" role="toolbar" >
-				{[1, 2, 4, 8, 16].map(num => {
-					return <button
-						className={classnames('btn btn-default', {active: num === this.state.figureCount})}
-						onClick={this.changeCount(num)}
-						children={num}
-						key={num}
-					/>
-				})}
+			<div className="row mt">
+				<div className="col-md-4">
+					<button className="btn btn-primary" onClick={this.generate}>Regenerate</button>
+				</div>
 			</div>
-			<button className="btn btn-primary" onClick={this.generate}>Regenerate</button>
 		</div>;
 	},
 });
