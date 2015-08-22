@@ -14,8 +14,7 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps(newProps) {
 		clearTimeout(this.updateTimeout);
-		this.setState(this.getInitialState());
-		this.update();
+		this.setState(this.getInitialState(), this.update);
 	},
 
 	componentWillMount() {
@@ -51,7 +50,7 @@ module.exports = React.createClass({
 	render() {
 		return <div>
 			{this.props.order.map((figure, groupIndex) => {
-				return <div className="note-group">
+				return <div key={groupIndex} className="note-group">
 					{figure.map((note, noteIndex) => {
 						var classes = classnames({
 							note: true,
@@ -60,7 +59,7 @@ module.exports = React.createClass({
 							current: this.state.currentGroup === groupIndex &&
 								this.state.currentNote === noteIndex
 						});
-						return <div className={classes} />;
+						return <div key={noteIndex} className={classes} />;
 					})}
 				</div>
 			})}

@@ -13,13 +13,6 @@ module.exports = React.createClass({
 		};
 	},
 
-	changeCount(e) {
-		var num = Number(e.target.value);
-		if (num) {
-			this.setState({figureCount: num});
-		}
-	},
-
 	generate() {
 		var names = Object.keys(FIGURES).filter(figureName => {
 			return this.state.activeFigures[figureName];
@@ -39,22 +32,30 @@ module.exports = React.createClass({
 				activeFigures: assign({}, this.state.activeFigures, {
 					[figureName]: !(this.state.activeFigures[figureName])
 				})
-			});
+			}, this.generate);
 		};
+	},
+
+	changeCount(count) {
+		return () => {
+			this.setState({
+				figureCount: count
+			}, this.generate);
+		}
 	},
 
 	renderFigure(figureName) {
 		var figure = FIGURES[figureName];
 		// TODO remove copypast
 		return <div className="note-group">
-			{figure.map(note => {
+			{figure.map((note, index) => {
 				var classes = classnames({
 					note: true,
 					eight: note === EIGHT,
 					sixteen: note === SIXTEEN,
 					current: this.state.activeFigures[figureName]
 				});
-				return <div onClick={this.addOrRemoveFigure(figureName)} className={classes} />;
+				return <div key={index} onClick={this.addOrRemoveFigure(figureName)} className={classes} />;
 			})}
 		</div>
 	},
@@ -65,15 +66,16 @@ module.exports = React.createClass({
 				{Object.keys(FIGURES).map(key => this.renderFigure(key))}
 			</div>
 			<div className="btn-toolbar" role="toolbar" >
-				{[1, 2, 4, 8].map(num => {
+				{[1, 2, 4, 8, 16].map(num => {
 					return <button
 						className={classnames('btn btn-default', {active: num === this.state.figureCount})}
-						onClick={() => this.setState({figureCount: num})}
+						onClick={this.changeCount(num)}
 						children={num}
+						key={num}
 					/>
 				})}
 			</div>
-			<button className="btn btn-primary" onClick={this.generate}>Generate</button>
+			<button className="btn btn-primary" onClick={this.generate}>Regenerate</button>
 		</div>;
 	},
 });
