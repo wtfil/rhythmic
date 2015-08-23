@@ -8,6 +8,32 @@
 	width: 4em;
 	display: inline-block;
 	margin-right: 0.5em;
+	position: relative;
+	&.triple:before {
+		content: '';
+
+		position: absolute;
+		top: -5px;
+		width: 100%;
+		height: 4px;
+		left: 0;
+
+		border: solid @note-color;
+		border-width: 1px 1px 0 1px;
+		box-sizing: border-box;
+	}
+	&.triple:after {
+		content: '3';
+		text-align: center;
+		font-size: 9px;
+		color: #999;
+
+		position: absolute;
+		top: -11px;
+		left: 0;
+		width: 100%;
+		text-align: center;
+	}
 }
 
 .note {
@@ -54,6 +80,33 @@
 	}
 }
 
+.threeole {
+	.sixteen;
+	width: 33%;
+	&:first-child + & {
+		border-width: 3px 0 0 3px;
+		width: 16.5%;
+		margin-left: 16.5%;
+		position: relative;
+		&:before {
+			left: -190%;
+			width: 300%;
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			top: -3px;
+			background: @note-color;
+			height: 3px;
+			left: -190%;
+			width: 300%;
+		}
+	}
+	&:last-child {
+		width: 34%;
+	}
+}
+
 .eight:first-child + .sixteen {
 	border-width: 3px 0 0 3px;
 }
@@ -62,22 +115,23 @@
 	width: 25%;
 	margin-left: 25%;
 	position: relative;
-}
-.sixteen:first-child + .eight:before {
-	content: '';
-	position: absolute;
-	top: -3px;
-	right: 127%;
-	width: 125%;
-	height: 3px;
-	background: @note-color;
+	&:before {
+		content: '';
+		position: absolute;
+		top: -3px;
+		right: 127%;
+		width: 125%;
+		height: 3px;
+		background: @note-color;
+	}
 }
 /*WTF??*/
 .note.eight.current,
+.note.threeole.current,
 .note.sixteen3.current,
 .note.sixteen.current {
 	border-color: @active-color;
-	&:before {
+	&:before, &:after {
 		background: @active-color;
 	}
 }
