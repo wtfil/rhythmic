@@ -46,7 +46,7 @@ gulp.task('server', function (cb) {
 
 gulp.task('js-watch', function () {
     var args = watchify.args;
-    args.degub = true;
+    args.debug = true;
     var bundler = watchify(browserify(files.js.src, args));
 
     bundler.transform('babelify');

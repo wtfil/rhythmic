@@ -1,7 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
 import assign from 'object-assign'
-import {FIGURES, EIGHT, SIXTEEN} from './constans';
+import {FIGURES} from './constans'
+import Figure from './Figure'
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',
@@ -46,30 +47,24 @@ module.exports = React.createClass({
 
 	renderFigure(figureName) {
 		var figure = FIGURES[figureName];
-		// TODO remove copypast
-		return <div className="note-group">
-			{figure.map((note, index) => {
-				var classes = classnames({
-					note: true,
-					eight: note === EIGHT,
-					sixteen: note === SIXTEEN,
-					current: this.state.activeFigures[figureName]
-				});
-				return <div key={index} onClick={this.addOrRemoveFigure(figureName)} className={classes} />;
-			})}
-		</div>
+		return <i onClick={this.addOrRemoveFigure(figureName)}>
+			<Figure
+				figure={figure}
+				active={this.state.activeFigures[figureName]}
+			/>
+		</i>;
 	},
 
 	render() {
 		return <div className="well">
 			<div className="row">
 
-				<div className="col-md-4">
+				<div className="col-md-8">
 					<h4>Figures</h4>
 					{Object.keys(FIGURES).map(key => this.renderFigure(key))}
 				</div>
 				<div className="col-md-4 btn-toolbar" role="toolbar" >
-					<h4>Repeats</h4>
+					<h4>Sequence</h4>
 					{[1, 2, 4, 8, 16].map(num => {
 						return <button
 							className={classnames('btn btn-default', {active: num === this.state.figureCount})}

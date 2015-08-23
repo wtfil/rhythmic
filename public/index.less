@@ -36,6 +36,23 @@
 		background: @note-color;
 	}
 }
+.sixteen3 {
+	width: 75%;
+	position: relative;
+	&:before {
+		content: '';
+		width: 4px;
+		height: 4px;
+		border-radius: 2px;
+		background: @note-color;
+		position: absolute;
+		bottom: 10%;
+		right: 10%;
+	}
+	&:first-child:before {
+		left: 10%;
+	}
+}
 
 .eight:first-child + .sixteen {
 	border-width: 3px 0 0 3px;
@@ -55,7 +72,9 @@
 	height: 3px;
 	background: @note-color;
 }
+/*WTF??*/
 .note.eight.current,
+.note.sixteen3.current,
 .note.sixteen.current {
 	border-color: @active-color;
 	&:before {

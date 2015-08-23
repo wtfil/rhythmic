@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import {EIGHT, SIXTEEN, DURATIONS} from './constans'
 import {playOpen} from './audio';
+import Figure from './Figure';
 
 module.exports = React.createClass({
 	displayName: 'Sample',
@@ -50,18 +51,10 @@ module.exports = React.createClass({
 	render() {
 		return <div>
 			{this.props.order.map((figure, groupIndex) => {
-				return <div key={groupIndex} className="note-group">
-					{figure.map((note, noteIndex) => {
-						var classes = classnames({
-							note: true,
-							eight: note === EIGHT,
-							sixteen: note === SIXTEEN,
-							current: this.state.currentGroup === groupIndex &&
-								this.state.currentNote === noteIndex
-						});
-						return <div key={noteIndex} className={classes} />;
-					})}
-				</div>
+				return <Figure
+					figure={figure}
+					currentNote={this.state.currentGroup === groupIndex && this.state.currentNote}
+				/>;
 			})}
 		</div>
 	}
