@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import {EIGHT, SIXTEEN, DURATIONS} from './constans'
-import {playOpen} from './audio';
+import {EIGHT, SIXTEEN, DURATIONS} from '../constans'
+import {playOpen} from '../audio';
 import Figure from './Figure';
 
 module.exports = React.createClass({
@@ -26,16 +26,16 @@ module.exports = React.createClass({
 	},
 	update() {
 		var {currentNote, currentGroup} = this.state;
-		var {order} = this.props;
-		var delay = 4000 * DURATIONS[order[currentGroup][currentNote]];
+		var {sequence} = this.props;
+		var delay = 4000 * DURATIONS[sequence[currentGroup][currentNote]];
 
 		var note = currentNote + 1;
 		var group = currentGroup;
-		if (note > order[currentGroup].length - 1) {
+		if (note > sequence[currentGroup].length - 1) {
 			note = 0;
 			group ++;
 		}
-		if (group > order.length - 1) {
+		if (group > sequence.length - 1) {
 			group = 0;
 		}
 		playOpen().then(() => {
@@ -50,7 +50,7 @@ module.exports = React.createClass({
 	},
 	render() {
 		return <div>
-			{this.props.order.map((figure, groupIndex) => {
+			{this.props.sequence.map((figure, groupIndex) => {
 				return <Figure
 					figure={figure}
 					currentNote={this.state.currentGroup === groupIndex && this.state.currentNote}

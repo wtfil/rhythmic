@@ -1,26 +1,14 @@
-import React from 'react'
-import Toolbar from './Toolbar'
-import Sample from './Sample'
-import {FIGURES} from './constans'
+import React from 'react';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import App from './containers/App';
+import sequence from './reducers/sequence';
 
-var App = React.createClass({
-	getInitialState() {
-		return {
-			order: [
-				FIGURES.f1, FIGURES.f2, FIGURES.f3, FIGURES.f4
-			]
-		};
-	},
-	update(order) {
-		this.setState({order: order});
-	},
-	render() {
-		return <div className="container">
-			<Toolbar onGenerate={this.update}/>
-			<Sample order={this.state.order} />
-		</div>;
+let store = createStore(sequence);
 
-	}
-});
-
-React.render(<App/>, document.body);
+React.render(
+	<Provider store={store}>
+		{() => <App/>}
+	</Provider>,
+	document.body
+);

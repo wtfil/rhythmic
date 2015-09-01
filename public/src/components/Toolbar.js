@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import assign from 'object-assign'
-import {FIGURES} from './constans'
+import {FIGURES} from '../constans'
 import Figure from './Figure'
 
 module.exports = React.createClass({
@@ -9,39 +8,29 @@ module.exports = React.createClass({
 
 	getInitialState() {
 		return {
-			figureCount: 4,
-			activeFigures: assign({}, FIGURES)
+			figuresCount: this.props.figuresCount,
+			activeFigures: this.props.activeFigures
 		};
-	},
-
-	generate() {
-		var names = Object.keys(FIGURES).filter(figureName => {
-			return this.state.activeFigures[figureName];
-		});
-		var figures = [];
-		var index, i;
-		for (i = 0; i < this.state.figureCount; i++) {
-			index = Math.round(Math.random() * (names.length - 1));
-			figures.push(FIGURES[names[index]]);
-		}
-		this.props.onGenerate(figures)
 	},
 
 	addOrRemoveFigure(figureName) {
 		return () => {
-			this.setState({
-				activeFigures: assign({}, this.state.activeFigures, {
-					[figureName]: !(this.state.activeFigures[figureName])
-				})
-			}, this.generate);
+			let activeFigures = this.state.activeFigures.slice();
+			let index = activeFigures.indexOf(figureName);
+			if (index >= 0) {
+				activeFigures.splice(index, 1);
+			} else {
+				activeFigures.push(figureName);
+			}
+			this.setState({ activeFigures });
+			this.props.onChangeFigures(activeFigures);
 		};
 	},
 
-	changeCount(count) {
+	changeCount(figuresCount) {
 		return () => {
-			this.setState({
-				figureCount: count
-			}, this.generate);
+			this.setState({figuresCount});
+			this.props.onChangeCount(figuresCount);
 		}
 	},
 
@@ -50,7 +39,7 @@ module.exports = React.createClass({
 		return <i onClick={this.addOrRemoveFigure(figureName)}>
 			<Figure
 				figure={figure}
-				active={this.state.activeFigures[figureName]}
+				active={this.state.activeFigures.indexOf(figureName) !== -1}
 			/>
 		</i>;
 	},
@@ -67,7 +56,7 @@ module.exports = React.createClass({
 					<h4>Sequence</h4>
 					{[1, 2, 4, 8, 16].map(num => {
 						return <button
-							className={classnames('btn btn-default', {active: num === this.state.figureCount})}
+							className={classnames('btn btn-default', {active: num === this.state.figuresCount})}
 							onClick={this.changeCount(num)}
 							children={num}
 							key={num}
@@ -77,7 +66,7 @@ module.exports = React.createClass({
 			</div>
 			<div className="row mt">
 				<div className="col-md-4">
-					<button className="btn btn-primary" onClick={this.generate}>Regenerate</button>
+					<button className="btn btn-primary" onClick={this.props.onRegenerate}>Regenerate</button>
 				</div>
 			</div>
 		</div>;

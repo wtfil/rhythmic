@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import {EIGHT, SIXTEEN, SIXTEEN3, THREEOLE} from './constans'
+import {EIGHT, SIXTEEN, SIXTEEN3, THREEOLE} from '../constans'
 
 module.exports = React.createClass({
 	displayName: 'Figure',
