@@ -6,32 +6,17 @@ import Figure from './Figure'
 module.exports = React.createClass({
 	displayName: 'Toolbar',
 
-	getInitialState() {
-		return {
-			figuresCount: this.props.figuresCount,
-			activeFigures: this.props.activeFigures
-		};
-	},
-
 	addOrRemoveFigure(figureName) {
 		return () => {
-			let activeFigures = this.state.activeFigures.slice();
+			let activeFigures = this.props.activeFigures.slice();
 			let index = activeFigures.indexOf(figureName);
 			if (index >= 0) {
 				activeFigures.splice(index, 1);
 			} else {
 				activeFigures.push(figureName);
 			}
-			this.setState({ activeFigures });
 			this.props.onChangeFigures(activeFigures);
 		};
-	},
-
-	changeCount(figuresCount) {
-		return () => {
-			this.setState({figuresCount});
-			this.props.onChangeCount(figuresCount);
-		}
 	},
 
 	renderFigure(figureName) {
@@ -39,7 +24,7 @@ module.exports = React.createClass({
 		return <i onClick={this.addOrRemoveFigure(figureName)}>
 			<Figure
 				figure={figure}
-				active={this.state.activeFigures.indexOf(figureName) !== -1}
+				active={this.props.activeFigures.indexOf(figureName) !== -1}
 			/>
 		</i>;
 	},
@@ -48,20 +33,27 @@ module.exports = React.createClass({
 		return <div className="well">
 			<div className="row">
 
-				<div className="col-md-8">
+				<div className="col-md-7">
 					<h4>Figures</h4>
 					{Object.keys(FIGURES).map(key => this.renderFigure(key))}
 				</div>
-				<div className="col-md-4 btn-toolbar" role="toolbar" >
+				<div className="col-md-2">
+					<h4>Methronome</h4>
+					<input type="range" min="10" max="300" onChange={e => this.props.onTempChange(e.target.value)} value={this.props.temp} />
+					<span>{this.props.temp} bits/min</span>
+				</div>
+				<div className="col-md-3" role="group" >
 					<h4>Sequence</h4>
-					{[1, 2, 4, 8, 16].map(num => {
-						return <button
-							className={classnames('btn btn-default', {active: num === this.state.figuresCount})}
-							onClick={this.changeCount(num)}
-							children={num}
-							key={num}
-						/>
-					})}
+					<div className="btn-group">
+						{[1, 2, 4, 8, 16].map(num => {
+							return <button
+								className={classnames('btn btn-default', {active: num === this.props.figuresCount})}
+								onClick={() => this.props.onChangeCount(num)}
+								children={num}
+								key={num}
+							/>
+						})}
+					</div>
 				</div>
 			</div>
 			<div className="row mt">

@@ -26,8 +26,8 @@ module.exports = React.createClass({
 	},
 	update() {
 		var {currentNote, currentGroup} = this.state;
-		var {sequence} = this.props;
-		var delay = 4000 * DURATIONS[sequence[currentGroup][currentNote]];
+		var {sequence, temp} = this.props;
+		var delay = 4 * 60 * 1000 / temp * DURATIONS[sequence[currentGroup][currentNote]];
 
 		var note = currentNote + 1;
 		var group = currentGroup;
