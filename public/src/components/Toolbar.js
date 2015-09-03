@@ -42,7 +42,7 @@ module.exports = React.createClass({
 					<input type="range" min="10" max="300" onChange={e => this.props.onTempChange(e.target.value)} value={this.props.temp} />
 					<span>{this.props.temp} bits/min</span>
 				</div>
-				<div className="col-md-3" role="group" >
+				<div className="col-md-3">
 					<h4>Sequence</h4>
 					<div className="btn-group">
 						{[1, 2, 4, 8, 16].map(num => {

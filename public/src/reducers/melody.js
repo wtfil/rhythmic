@@ -1,9 +1,11 @@
 import {FIGURES} from '../constans';
-import {COUNT_UPDATED, FIGURES_UPDATED, NEW_SEQUENCE} from '../actions';
+import {COUNT_UPDATED, FIGURES_UPDATED, NEW_SEQUENCE, NOTE_END_PLAY} from '../actions';
 
 const initialState = {
 	sequence: [FIGURES.f1, FIGURES.f2, FIGURES.f3, FIGURES.f4],
 	figures: ['f1', 'f2', 'f3', 'f4'],
+	figureIndex: 0,
+	noteIndex: 0,
 	count: 4
 }
 
@@ -18,12 +20,24 @@ export default function reducer(state = initialState, action) {
 
 	case NEW_SEQUENCE:
 		let {figures, count} = state;
-		let sequence = [], index, i;
+		let newSequence = [], index, i;
 		for (i = 0; i < count; i++) {
 			index = Math.round(Math.random() * (figures.length - 1));
-			sequence.push(FIGURES[figures[index]]);
+			newSequence.push(FIGURES[figures[index]]);
 		}
-		return {...state, sequence};
+		return {...state, sequence: newSequence, figureIndex: 0, noteIndex: 0};
+
+	case NOTE_END_PLAY:
+		let {noteIndex, figureIndex, sequence} = state;
+		noteIndex ++;
+		if (noteIndex > sequence[figureIndex].length - 1) {
+			noteIndex = 0;
+			figureIndex ++;
+		}
+		if (figureIndex > sequence.length - 1) {
+			figureIndex = 0;
+		}
+		return {...state, figureIndex, noteIndex};
 
 	default:
 		return state;
