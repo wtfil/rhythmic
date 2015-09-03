@@ -19,7 +19,6 @@ let App = React.createClass({
 		let {melody} = this.state;
 		let {sequence, figureIndex, noteIndex} = melody;
 		let note = sequence[figureIndex][noteIndex];
-		console.log(figureIndex, noteIndex, note);
 		dispatch(playNote(note));
 	},
 	componentWillReceiveProps(newProps) {
