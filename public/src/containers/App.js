@@ -11,14 +11,21 @@ import {
 } from '../actions';
 
 let App = React.createClass({
+	getInitialState() {
+		return {melody: this.props.melody};
+	},
 	play() {
-		let {melody, dispatch} = this.props;
+		let {dispatch} = this.props;
+		let {melody} = this.state;
 		let {sequence, figureIndex, noteIndex} = melody;
 		let note = sequence[figureIndex][noteIndex];
+		console.log(figureIndex, noteIndex, note);
 		dispatch(playNote(note));
 	},
-	componentWillReceiveProps() {
-		this.play();
+	componentWillReceiveProps(newProps) {
+		if (this.state.melody !== newProps.melody) {
+			this.setState({melody: newProps.melody}, this.play);
+		}
 	},
 	componentWillMount() {
 		this.play();

@@ -1,5 +1,7 @@
-var AudioContext = window.AudioContext || window.webkitAudioContext
-var context = new AudioContext();
+import 'whatwg-fetch';
+
+let AudioContext = window.AudioContext || window.webkitAudioContext
+let context = new AudioContext();
 
 function load(url, cb) {
 	return fetch(url)
@@ -10,7 +12,7 @@ function load(url, cb) {
 }
 
 function play(buffer) {
-	var source = context.createBufferSource();
+	let source = context.createBufferSource();
 	source.connect(context.destination);
 	source.buffer = buffer;
 	source.start(0);
