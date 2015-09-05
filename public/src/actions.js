@@ -7,6 +7,8 @@ export const NEW_SEQUENCE = 'NEW_SEQUENCE';
 export const TEMP_UPDATED = 'TEMP_UPDATED';
 export const NOTE_START_PLAY = 'NOTE_START_PLAY';
 export const NOTE_END_PLAY = 'NOTE_END_PLAY';
+export const PAUSE = 'PAUSED';
+export const PLAY = 'PLAY';
 
 export function countUpdated(count) {
 	return {type: COUNT_UPDATED, count};
@@ -25,15 +27,32 @@ export function tempUpdated(temp) {
 }
 
 let playNoteTimer;
-export function playNote(note) {
+export function pause() {
+	return dispatch => {
+		dispatch({type: PAUSE});
+		dispatch({type: NOTE_END_PLAY});
+		clearTimeout(playNoteTimer);
+	}
+}
+export function play() {
+	return (dispatch, getState) => {
+		dispatch({type: PLAY});
+		playNote()(dispatch, getState);
+	}
+}
+
+export function playNote() {
 	return (dispatch, getState) => {
 		const state = getState();
+		const {sequence, figureIndex, noteIndex} = state.melody;
+		const note = sequence[figureIndex][noteIndex];
 		const duration = 4 * 60 * 1000 / state.methronome.temp * DURATIONS[note];
 		clearTimeout(playNoteTimer);
 		dispatch({type: NOTE_START_PLAY, note});
 		playOpen().then(() => {
 			playNoteTimer = setTimeout(() => {
 				dispatch({type: NOTE_END_PLAY, note});
+				play()(dispatch, getState);
 			}, duration);
 		});
 	}

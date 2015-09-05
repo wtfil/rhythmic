@@ -7,28 +7,11 @@ import {
 	countUpdated,
 	newSequence,
 	tempUpdated,
-	playNote
+	play,
+	pause
 } from '../actions';
 
 let App = React.createClass({
-	getInitialState() {
-		return {melody: this.props.melody};
-	},
-	play() {
-		let {dispatch} = this.props;
-		let {melody} = this.state;
-		let {sequence, figureIndex, noteIndex} = melody;
-		let note = sequence[figureIndex][noteIndex];
-		dispatch(playNote(note));
-	},
-	componentWillReceiveProps(newProps) {
-		if (this.state.melody !== newProps.melody) {
-			this.setState({melody: newProps.melody}, this.play);
-		}
-	},
-	componentWillMount() {
-		this.play();
-	},
 
 	render() {
 		const {dispatch, methronome, melody} = this.props;
@@ -37,11 +20,14 @@ let App = React.createClass({
 				figuresCount={melody.count}
 				activeFigures={melody.figures}
 				temp={methronome.temp}
+				isPlaying={methronome.isPlaying}
 
 				onChangeFigures={figures => dispatch(figuresUpdated(figures))}
 				onChangeCount={count => dispatch(countUpdated(count))}
 				onRegenerate={() => dispatch(newSequence())}
 				onTempChange={temp => dispatch(tempUpdated(temp))}
+				onPause={() => dispatch(pause())}
+				onPlay={() => dispatch(play())}
 			/>
 			<Sample
 				sequence={melody.sequence}
