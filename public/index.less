@@ -139,3 +139,36 @@
 .mt {
 	margin-top: 1em;
 }
+
+.slider {
+	@size: 34px;
+	height: @size;
+	position: relative;
+	display: flex;
+	align-items: center;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	&__button {
+		position: absolute;
+		margin-left: -@size / 2;
+		width: @size;
+		height: @size;
+		line-height: @size;
+		padding: 0;
+		text-align: center;
+		background: white;
+		opacity: 0.9;
+	}
+
+	&__progress {
+		height: 7px;
+		border-radius: 3px;
+		flex: 1;
+		background: @active-color;
+	}
+}

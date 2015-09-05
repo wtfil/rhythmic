@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import {FIGURES} from '../constans'
 import Figure from './Figure'
+import Slider from './Slider';
 
 module.exports = React.createClass({
 	displayName: 'Toolbar',
@@ -39,8 +40,7 @@ module.exports = React.createClass({
 				</div>
 				<div className="col-md-2">
 					<h4>Methronome</h4>
-					<input type="range" min="10" max="300" onChange={e => this.props.onTempChange(e.target.value)} value={this.props.temp} />
-					<span>{this.props.temp} bits/min</span>
+					<Slider value={this.props.temp} step={1} min={10} max={300} onChange={this.props.onTempChange}/>
 				</div>
 				<div className="col-md-3">
 					<h4>Sequence</h4>
