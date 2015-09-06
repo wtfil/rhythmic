@@ -30,6 +30,10 @@ module.exports = React.createClass({
 		</i>;
 	},
 
+	showCreateModal() {
+
+	},
+
 	render() {
 		return <div className="well">
 			<div className="row">
@@ -59,6 +63,7 @@ module.exports = React.createClass({
 			<div className="row mt">
 				<div className="col-md-4">
 					<button className="btn btn-primary" onClick={this.props.onRegenerate}>Regenerate</button>
+					<button className="btn btn-warning" onClick={this.showCreateModal}>Create New</button>
 					{this.props.isPlaying ?
 						<button className="btn btn-warning" onClick={this.props.onPause}>| |</button> :
 						<button className="btn btn-warning" onClick={this.props.onPlay}>▶</button>
