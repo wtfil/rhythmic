@@ -1,5 +1,6 @@
 var browserify = require('browserify');
 var gulp = require('gulp');
+var ghPages = require('gulp-gh-pages');
 var gutil = require('gulp-util');
 var fs = require('fs');
 var watchify = require('watchify');
@@ -68,6 +69,10 @@ gulp.task('js-watch', function () {
           .pipe(fs.createWriteStream(files.js.dest));
     }
     rebundle();
+});
+
+gulp.task('deploy', ['css', 'js'], function () {
+	return gulp.src('./public/**/*').pipe(ghPages());
 });
 
 gulp.task('dev', ['css', 'js-watch', 'server', 'css-watch']);

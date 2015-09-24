@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "gulp dev",
-    "start": "node server"
+    "start": "node server",
+    "deploy": "gulp deploy"
   },
   "author": "",
   "license": "ISC",
@@ -23,5 +24,8 @@
     "redux-thunk": "^0.1.0",
     "watchify": "^3.2.3",
     "whatwg-fetch": "^0.9.0"
+  },
+  "devDependencies": {
+    "gulp-gh-pages": "^0.5.2"
   }
 }
