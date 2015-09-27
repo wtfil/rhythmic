@@ -5,8 +5,12 @@ Try this [app](http://wtfil.github.io/rhythmic) and test your skil with random g
 
 ## Install
 
-npm install
-npm start
+    npm install
+    npm start
+    
+## Deploy to github pages
+
+    npm run deply
 
 ## Demo
 
