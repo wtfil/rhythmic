@@ -31,7 +31,9 @@ function drainQueue() {
         currentQueue = queue;
         queue = [];
         while (++queueIndex < len) {
-            currentQueue[queueIndex].run();
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
         }
         queueIndex = -1;
         len = queue.length;
@@ -83,7 +85,6 @@ process.binding = function (name) {
     throw new Error('process.binding is not supported');
 };
 
-// TODO(shtylman)
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
@@ -128,13 +129,13 @@ process.umask = function() { return 0; };
 		return classes.substr(1);
 	}
 
-	if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd){
 		// AMD. Register as an anonymous module.
 		define(function () {
 			return classNames;
 		});
-	} else if (typeof module !== 'undefined' && module.exports) {
-		module.exports = classNames;
 	} else {
 		window.classNames = classNames;
 	}
@@ -227,12 +228,16 @@ function createConnect(React) {
   var storeShape = _utilsCreateStoreShape2['default'](PropTypes);
 
   return function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+    var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+
     var shouldSubscribe = Boolean(mapStateToProps);
     var finalMapStateToProps = mapStateToProps || defaultMapStateToProps;
     var finalMapDispatchToProps = _utilsIsPlainObject2['default'](mapDispatchToProps) ? _utilsWrapActionCreators2['default'](mapDispatchToProps) : mapDispatchToProps || defaultMapDispatchToProps;
     var finalMergeProps = mergeProps || defaultMergeProps;
     var shouldUpdateStateProps = finalMapStateToProps.length > 1;
     var shouldUpdateDispatchProps = finalMapDispatchToProps.length > 1;
+    var _options$pure = options.pure;
+    var pure = _options$pure === undefined ? true : _options$pure;
 
     // Helps track hot reloading.
     var version = nextVersion++;
@@ -265,7 +270,7 @@ function createConnect(React) {
         _inherits(Connect, _Component);
 
         Connect.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-          return !_utilsShallowEqual2['default'](this.state.props, nextState.props);
+          return !pure || !_utilsShallowEqual2['default'](this.state.props, nextState.props);
         };
 
         _createClass(Connect, null, [{
@@ -388,6 +393,10 @@ function createConnect(React) {
         };
 
         Connect.prototype.handleChange = function handleChange() {
+          if (!this.unsubscribe) {
+            return;
+          }
+
           if (this.updateStateProps()) {
             this.updateState();
           }
@@ -21400,7 +21409,7 @@ function play(buffer) {
 
 function playOpen() {
 	if (!playOpen.promise) {
-		playOpen.promise = load('/open.mp3');
+		playOpen.promise = load('open.mp3');
 	}
 	return playOpen.promise.then(play);
 }
@@ -21629,7 +21638,7 @@ module.exports = _react2['default'].createClass({
 
 		return _react2['default'].createElement(
 			'div',
-			{ className: 'well' },
+			{ className: 'well toolbar' },
 			_react2['default'].createElement(
 				'div',
 				{ className: 'row' },
@@ -21692,11 +21701,11 @@ module.exports = _react2['default'].createClass({
 					),
 					this.props.isPlaying ? _react2['default'].createElement(
 						'button',
-						{ className: 'btn btn-warning', onClick: this.props.onPause },
+						{ className: 'toolbar__pause btn btn-warning', onClick: this.props.onPause },
 						'| |'
 					) : _react2['default'].createElement(
 						'button',
-						{ className: 'btn btn-warning', onClick: this.props.onPlay },
+						{ className: 'toolbar__play btn btn-warning', onClick: this.props.onPlay },
 						'▶'
 					)
 				)

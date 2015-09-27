@@ -6813,7 +6813,7 @@ button.close {
   width: 99%;
   height: 4px;
   left: 0;
-  border: solid #dddddd;
+  border: solid #ddd;
   border-width: 1px 1px 0 1px;
   box-sizing: border-box;
 }
@@ -6829,7 +6829,7 @@ button.close {
 }
 .note {
   box-sizing: border-box;
-  border: solid #dddddd;
+  border: solid #ddd;
   border-width: 3px 3px 0 0;
   height: 100%;
   float: left;
@@ -6850,7 +6850,7 @@ button.close {
   top: 20%;
   width: 100%;
   height: 3px;
-  background: #dddddd;
+  background: #ddd;
 }
 .sixteen3 {
   width: 75%;
@@ -6861,7 +6861,7 @@ button.close {
   width: 4px;
   height: 4px;
   border-radius: 2px;
-  background: #dddddd;
+  background: #ddd;
   position: absolute;
   bottom: 10%;
   right: 10%;
@@ -6880,7 +6880,7 @@ button.close {
   top: 20%;
   width: 100%;
   height: 3px;
-  background: #dddddd;
+  background: #ddd;
 }
 .threeole:first-child + .threeole {
   border-width: 3px 0 0 3px;
@@ -6896,7 +6896,7 @@ button.close {
   content: '';
   position: absolute;
   top: -3px;
-  background: #dddddd;
+  background: #ddd;
   height: 3px;
   left: -200%;
   width: 300%;
@@ -6920,7 +6920,7 @@ button.close {
   right: 127%;
   width: 125%;
   height: 3px;
-  background: #dddddd;
+  background: #ddd;
 }
 /*WTF??*/
 .note.eight.current,
@@ -6970,4 +6970,14 @@ button.close {
   border-radius: 3px;
   flex: 1;
   background: orange;
+}
+.toolbar .slider {
+  max-width: 150px;
+}
+.toolbar__pause {
+  font-weight: bold;
+  margin-left: 10px;
+}
+.toolbar__play {
+  margin-left: 10px;
 }
