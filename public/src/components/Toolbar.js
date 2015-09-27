@@ -31,7 +31,7 @@ module.exports = React.createClass({
 	},
 
 	render() {
-		return <div className="well">
+		return <div className="well toolbar">
 			<div className="row">
 
 				<div className="col-md-7">
@@ -60,8 +60,8 @@ module.exports = React.createClass({
 				<div className="col-md-4">
 					<button className="btn btn-primary" onClick={this.props.onRegenerate}>Regenerate</button>
 					{this.props.isPlaying ?
-						<button className="btn btn-warning" onClick={this.props.onPause}>| |</button> :
-						<button className="btn btn-warning" onClick={this.props.onPlay}>▶</button>
+						<button className="toolbar__pause btn btn-warning" onClick={this.props.onPause}>| |</button> :
+						<button className="toolbar__play btn btn-warning" onClick={this.props.onPlay}>▶</button>
 					}
 				</div>
 			</div>

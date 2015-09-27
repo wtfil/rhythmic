@@ -20,7 +20,7 @@ function play(buffer) {
 
 function playOpen() {
 	if (!playOpen.promise) {
-		playOpen.promise = load('/open.mp3');
+		playOpen.promise = load('open.mp3');
 	}
 	return playOpen.promise.then(play);
 }
